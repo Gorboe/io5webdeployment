@@ -1,0 +1,22 @@
+global {
+    project io5assignment3-web2
+}
+
+host web2-apache2-prod {
+    openstack {
+        user_data {
+            apt-get update
+            apt-get install apache2 -y
+            rm /var/www/html/index.html
+            touch /var/www/html/index.html
+            echo "<h1>Webserver 2</h1>" >> /var/www/html/index.html
+        }
+        image Ubuntu16.04
+        flavor m1.small
+        keypair master
+    }
+    network eth0 {
+        net netsys_net
+        address dhcp
+    }
+}

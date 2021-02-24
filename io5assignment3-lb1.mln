@@ -1,0 +1,19 @@
+global {
+    project io5assignment3-lb1
+}
+
+host lb1-pound-prod {
+    openstack {
+        user_data {
+            apt-get update
+            apt-get install pound -y
+        }
+        image Ubuntu16.04
+        flavor m1.small
+        keypair master
+    }
+    network eth0 {
+        net netsys_net
+        address dhcp
+    }
+}

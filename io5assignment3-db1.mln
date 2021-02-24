@@ -1,0 +1,19 @@
+global {
+    project io5assignment3-db1
+}
+
+host db1-mysql-prod {
+    openstack {
+        user_data {
+            apt-get update
+            DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+        }
+        image Ubuntu16.04
+        flavor m1.small
+        keypair master
+    }
+    network eth0 {
+        net netsys_net
+        address dhcp
+    }
+}

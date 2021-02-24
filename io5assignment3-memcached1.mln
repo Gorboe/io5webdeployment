@@ -1,0 +1,18 @@
+global {
+    project io5assignment3-memcached1
+}
+
+host memcached1-prod {
+    openstack {
+        user_data {
+            apt-get update
+        }
+        image Ubuntu16.04
+        flavor m1.small
+        keypair master
+    }
+    network eth0 {
+        net netsys_net
+        address dhcp
+    }
+}
