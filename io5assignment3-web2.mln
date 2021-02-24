@@ -13,7 +13,7 @@ host web2-apache2-prod {
         }
         image Ubuntu16.04
         flavor m1.small
-        keypair master
+        keypair foreman-key
     }
     network eth0 {
         net netsys_net
