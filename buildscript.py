@@ -79,3 +79,4 @@ if __name__ == '__main__':
     # post installation scripts?
     time.sleep(2)
     print('#--------------------------------RUN POST INSTALLATION SCRIPTS--------------------------------#')
+    subprocess.run('cp users.pp /etc/puppetlabs/code/environments/production/manifests/users.pp', shell=True)

@@ -7,6 +7,20 @@ host db2-mysql-prod {
         user_data {
             apt-get update
             DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
+            echo "[mysqld]" >> /etc/mysql/my.cnf
+            echo "server-id=2" >> /etc/mysql/my.cnf
+            echo "log_bin=/var/log/mysql/bin.log" >> /etc/mysql/my.cnf
+            service mysql restart
+            wget https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb
+            dpkg -i puppetlabs-release-pc1-xenial.deb
+            apt-get update
+            apt-get -y install puppet-agent
+            echo "10.0.50.9 master.openstacklocal master" >> /etc/hosts
+            echo "START=yes" >> /etc/default/puppet
+            echo "[agent]" >> /etc/puppetlabs/puppet/puppet.conf
+            echo "server = master.openstacklocal" >> /etc/puppetlabs/puppet/puppet.conf
+            echo "runinterval = 600" >> /etc/puppetlabs/puppet/puppet.conf
+            service puppet start
         }
         image Ubuntu16.04
         flavor m1.small
