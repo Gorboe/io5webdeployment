@@ -12,7 +12,7 @@ def build_mln(file):
 def check_build(hostname, file):
     build = subprocess.run('nova list --status BUILD | grep ' + hostname, shell=True)
     while build.returncode == 0:
-        time.sleep(10)
+        time.sleep(5)
         print('checking ' + hostname + ' build progress')
         build = subprocess.run('nova list --status BUILD | grep ' + hostname, shell=True)
     print(hostname + ' is done building')
@@ -20,7 +20,7 @@ def check_build(hostname, file):
     error = subprocess.run('nova list --status ERROR | grep ' + hostname, shell=True)
     if error.returncode == 0:
         print(hostname + ' had error, trying to rebuild. Please wait.')
-        time.sleep(10)
+        time.sleep(1)
         subprocess.run('nova delete ' + hostname, shell=True)
         print('Deleting ' + hostname)
         time.sleep(10)
@@ -32,7 +32,8 @@ def check_build(hostname, file):
 
 
 if __name__ == '__main__':
-    # subprocess.run('. ./.openstack', shell=True) # Source the openstackfile, python runs /bin/shell not /bin/bash
+    # Source .openstack file incase you relogged
+    # subprocess.run('source ~/.openstack', shell=True)
 
     # Web1
     print('#--------------------------------BUILDING WEB1 STEP: 1/7--------------------------------#')
@@ -72,11 +73,13 @@ if __name__ == '__main__':
 
     # memcached1
     print('#--------------------------------BUILDING MEMCACHED1 STEP: 7/7--------------------------------#')
-    #time.sleep(2)
-    #build_mln('io5assignment3-memcached1')
-    #check_build('memcached1-prod.io5assignment3-memcached1', 'io5assignment3-memcached1')
+    time.sleep(2)
+    build_mln('io5assignment3-memcached1')
+    check_build('memcached1-prod.io5assignment3-memcached1', 'io5assignment3-memcached1')
 
     # post installation scripts?
     time.sleep(2)
     print('#--------------------------------RUN POST INSTALLATION SCRIPTS--------------------------------#')
     subprocess.run('cp users.pp /etc/puppetlabs/code/environments/production/manifests/users.pp', shell=True)
+
+    print('#--------------------------------SCRIPT FINISHED--------------------------------#')
