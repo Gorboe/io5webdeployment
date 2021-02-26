@@ -10,7 +10,7 @@ host web1-apache2-prod {
             rm /var/www/html/index.html
             touch /var/www/html/index.html
             echo "<h1>Webserver 1</h1>" >> /var/www/html/index.html
-            add-apt-repository ppa:ondrej/php -y
+            sudo add-apt-repository ppa:ondrej/php -y
             apt-get update
             apt-get install php5.6 -y
             apt-get install php-mysql -y

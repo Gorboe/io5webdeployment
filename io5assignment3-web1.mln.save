@@ -1,0 +1,29 @@
+global {
+    project io5assignment3-web1
+}
+
+host web1-apache2-prod {
+    openstack {
+        user_data {
+            apt-get update
+            apt-get install apache2 -y
+            rm /var/www/html/index.html
+            touch /var/www/html/index.html
+            echo "<h1>Webserver 1</h1>" >> /var/www/html/index.html
+            add-apt-repository ppa:ondrej/php -y
+            apt-get update
+            apt-get install php5.6 -y
+           add-apt-repository ppa:ondrej/php -y
+apt-get update
+apt-get install php5.6 -y
+ 
+        }
+        image Ubuntu16.04
+        flavor m1.small
+        keypair foreman-key
+    }
+    network eth0 {
+        net netsys_net
+        address dhcp
+    }
+}
